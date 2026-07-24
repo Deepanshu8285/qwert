@@ -1,8 +1,9 @@
-# Handwritten Digit Recognition using CNN (MNIST)
+# Handwritten Digit Recognition using Convolutional Neural Network (CNN)
 
-A Convolutional Neural Network (CNN) built using TensorFlow/Keras to classify handwritten digits from the MNIST dataset.
+A deep learning project that classifies handwritten digits (0–9) from the MNIST dataset using a Convolutional Neural Network (CNN) built with TensorFlow/Keras.
 
 ---
+
 ## 👨‍💻 Author
 
 **Deepanshu Gupta**
@@ -10,61 +11,60 @@ A Convolutional Neural Network (CNN) built using TensorFlow/Keras to classify ha
 - 🎓 B.Tech Student, Malaviya National Institute of Technology (MNIT) Jaipur
 - 💻 Interested in Artificial Intelligence, Machine Learning, Deep Learning, and Data Structures & Algorithms
 
+---
 
-## Project Overview
+## 📌 Project Overview
 
-This project demonstrates how a CNN can be used for image classification. The model is trained on the MNIST dataset, which contains grayscale images of handwritten digits (0–9).
+This project demonstrates the implementation of a Convolutional Neural Network (CNN) for handwritten digit classification.
 
-The CNN automatically learns features such as edges, curves, and digit shapes using convolutional layers instead of manually engineering features.
+Unlike Artificial Neural Networks (ANNs), CNNs automatically learn spatial features such as edges, curves, and shapes through convolution operations, making them highly effective for image classification tasks.
+
+The model is trained on the MNIST dataset and achieves approximately **98–99% test accuracy**.
 
 ---
 
-## Dataset
+## 📂 Dataset
 
-- **Dataset:** MNIST
-- **Training Images:** 60,000
-- **Testing Images:** 10,000
-- **Image Size:** 28 × 28 pixels
-- **Channels:** 1 (Grayscale)
-- **Classes:** 10 (Digits 0–9)
+**MNIST Handwritten Digits Dataset**
+
+- Training Images: **60,000**
+- Testing Images: **10,000**
+- Image Size: **28 × 28 pixels**
+- Channels: **1 (Grayscale)**
+- Number of Classes: **10 (Digits 0–9)**
 
 ---
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 - Python
 - TensorFlow
 - Keras
 - NumPy
 - Matplotlib
+- Scikit-learn
 
 ---
 
-## Model Architecture
+## 🧠 CNN Architecture
 
-| Layer | Output Shape |
-|--------|--------------|
-| Conv2D (32 filters, 3×3, ReLU) | 26 × 26 × 32 |
-| MaxPooling2D (2×2) | 13 × 13 × 32 |
-| Conv2D (64 filters, 3×3, ReLU) | 11 × 11 × 64 |
-| MaxPooling2D (2×2) | 5 × 5 × 64 |
-| Flatten | 1600 |
-| Dense (128, ReLU) | 128 |
-| Dropout (0.3) | 128 |
-| Dense (10, Softmax) | 10 |
-
----
-
-## Model Summary
-
-- Total Parameters: **225,034**
-- Trainable Parameters: **225,034**
+| Layer | Configuration | Output Shape |
+|--------|--------------|--------------|
+| Conv2D | 32 Filters, 3×3, ReLU | 26 × 26 × 32 |
+| MaxPooling2D | 2×2 | 13 × 13 × 32 |
+| Conv2D | 64 Filters, 3×3, ReLU | 11 × 11 × 64 |
+| MaxPooling2D | 2×2 | 5 × 5 × 64 |
+| Flatten | — | 1600 |
+| Dense | 128 Neurons, ReLU | 128 |
+| Dropout | 0.3 | 128 |
+| Dense | 10 Neurons, Softmax | 10 |
 
 ---
 
-## Data Preprocessing
+## ⚙️ Data Preprocessing
 
-- Reshape images from
+- Loaded the MNIST dataset from TensorFlow.
+- Reshaped images from:
 
 ```
 (28,28)
@@ -78,93 +78,94 @@ to
 
 to include the channel dimension.
 
-- Normalize pixel values
+- Normalized pixel values from **0–255** to **0–1** using:
 
 ```python
-X_train = X_train.astype("float32") / 255.0
-X_test = X_test.astype("float32") / 255.0
+X_train = X_train / 255.0
+X_test = X_test / 255.0
 ```
 
 ---
 
-## Training
+## 🚀 Model Compilation
 
 ```python
 model.compile(
-    optimizer="adam",
-    loss="sparse_categorical_crossentropy",
-    metrics=["accuracy"]
-)
-
-history = model.fit(
-    X_train,
-    y_train,
-    epochs=10,
-    validation_split=0.2
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
 )
 ```
 
 ---
 
-## Prediction
+## 🏋️ Training
 
-Predict a single image:
+The model was trained using:
+
+- Optimizer: **Adam**
+- Loss Function: **Sparse Categorical Crossentropy**
+- Metric: **Accuracy**
+- Validation Split: **20%**
+- Early Stopping to prevent overfitting
+
+```python
+early_stopping = EarlyStopping(
+    monitor='val_loss',
+    patience=3,
+    restore_best_weights=True
+)
+```
+
+---
+
+## 📊 Results
+
+- Training Accuracy: **~99%**
+- Test Accuracy: **~98–99%**
+
+The model accurately classifies handwritten digits while maintaining good generalization on unseen test data.
+
+---
+
+## 🔍 Sample Prediction
 
 ```python
 prediction = model.predict(X_test[0:1])
-print(prediction.argmax(axis=1))
+predicted_digit = prediction.argmax(axis=1)[0]
+print(predicted_digit)
 ```
 
 ---
 
-## Results
+## 📈 Key Concepts Demonstrated
 
-- Training Accuracy: ~99%
-- Test Accuracy: ~99%
-
-(The exact accuracy may vary slightly after each training run.)
+- Image Preprocessing
+- Convolution Operation
+- Feature Extraction
+- Max Pooling
+- Flatten Layer
+- Dense Neural Networks
+- Dropout Regularization
+- Softmax Classification
+- Early Stopping
+- CNN Model Evaluation
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 MNIST-CNN/
 │
-├── MNIST_CNN.ipynb
+├── Handwritten_Digit_Recognition_CNN.ipynb
 ├── README.md
 └── requirements.txt
 ```
 
 ---
 
-## Key Concepts Learned
-
-- Image preprocessing
-- Convolutional Neural Networks
-- Convolution layer
-- Max Pooling
-- Flatten layer
-- Fully Connected (Dense) layers
-- Dropout for regularization
-- Softmax activation
-- Multi-class classification
-- Model evaluation and prediction
-
----
-
-## Future Improvements
-
-- Hyperparameter tuning
-- Batch Normalization
-- Data Augmentation
-- Early Stopping
-- Model Checkpointing
-- Transfer Learning on larger datasets
-
----
-
-## How to Run
+## ▶️ How to Run
 
 1. Clone the repository
 
@@ -172,28 +173,32 @@ MNIST-CNN/
 git clone https://github.com/your-username/MNIST-CNN.git
 ```
 
-2. Install dependencies
+2. Install the required libraries
 
 ```bash
-pip install tensorflow numpy matplotlib
+pip install tensorflow numpy matplotlib scikit-learn
 ```
 
-3. Run the notebook
+3. Open the notebook
 
 ```bash
 jupyter notebook
 ```
 
-or upload the notebook to **Google Colab**.
+or upload it to **Google Colab**.
 
 ---
 
-## Sample Output
+## 🔮 Future Improvements
 
-```
-Predicted Digit : 7
-Actual Digit    : 7
-```
+- Batch Normalization
+- Data Augmentation
+- Hyperparameter Tuning
+- Learning Rate Scheduling
+- Model Saving and Loading
+- Testing on Custom Handwritten Images
 
 ---
+
+## ⭐ If you found this project useful, consider giving it a star!
 
