@@ -1,226 +1,199 @@
-# Handwritten Digit Classification using Artificial Neural Networks (ANN)
+# Handwritten Digit Recognition using CNN (MNIST)
 
-A deep learning project that classifies handwritten digits (0–9) from the MNIST dataset using a Feedforward Artificial Neural Network (ANN) built with TensorFlow and Keras.
+A Convolutional Neural Network (CNN) built using TensorFlow/Keras to classify handwritten digits from the MNIST dataset.
+
+---
+## 👨‍💻 Author
+
+**Deepanshu Gupta**
+
+- 🎓 B.Tech Student, Malaviya National Institute of Technology (MNIT) Jaipur
+- 💻 Interested in Artificial Intelligence, Machine Learning, Deep Learning, and Data Structures & Algorithms
+
+
+## Project Overview
+
+This project demonstrates how a CNN can be used for image classification. The model is trained on the MNIST dataset, which contains grayscale images of handwritten digits (0–9).
+
+The CNN automatically learns features such as edges, curves, and digit shapes using convolutional layers instead of manually engineering features.
 
 ---
 
-## 📌 Project Overview
+## Dataset
 
-This project demonstrates how to build, train, and evaluate an Artificial Neural Network (ANN) for image classification.
-
-The model is trained on the MNIST handwritten digit dataset and is capable of predicting the digit present in unseen images.
-
----
-
-## 🚀 Features
-
-- Load the MNIST dataset
-- Normalize image pixel values
-- Build a Sequential ANN model
-- Train using TensorFlow/Keras
-- Validate model performance
-- Visualize training & validation loss
-- Visualize training & validation accuracy
-- Predict handwritten digits from test images
+- **Dataset:** MNIST
+- **Training Images:** 60,000
+- **Testing Images:** 10,000
+- **Image Size:** 28 × 28 pixels
+- **Channels:** 1 (Grayscale)
+- **Classes:** 10 (Digits 0–9)
 
 ---
 
-## 🛠️ Tech Stack
+## Technologies Used
 
 - Python
 - TensorFlow
 - Keras
 - NumPy
 - Matplotlib
-- Scikit-learn
 
 ---
 
-## 📂 Dataset
+## Model Architecture
 
-Dataset: **MNIST**
-
-- 60,000 Training Images
-- 10,000 Testing Images
-- Image Size: 28 × 28 pixels
-- Classes: 10 (Digits 0–9)
-
----
-
-## 🧠 Model Architecture
-
-Input
-
-```
-28 × 28 Grayscale Image
-```
-
-↓
-
-Flatten Layer
-
-```
-784 Neurons
-```
-
-↓
-
-Dense Layer
-
-```
-128 Neurons
-Activation: ReLU
-```
-
-↓
-
-Dense Layer
-
-```
-32 Neurons
-Activation: ReLU
-```
-
-↓
-
-Output Layer
-
-```
-10 Neurons
-Activation: Softmax
-```
+| Layer | Output Shape |
+|--------|--------------|
+| Conv2D (32 filters, 3×3, ReLU) | 26 × 26 × 32 |
+| MaxPooling2D (2×2) | 13 × 13 × 32 |
+| Conv2D (64 filters, 3×3, ReLU) | 11 × 11 × 64 |
+| MaxPooling2D (2×2) | 5 × 5 × 64 |
+| Flatten | 1600 |
+| Dense (128, ReLU) | 128 |
+| Dropout (0.3) | 128 |
+| Dense (10, Softmax) | 10 |
 
 ---
 
-## ⚙️ Model Configuration
+## Model Summary
 
-Optimizer
-
-```
-Adam
-```
-
-Loss Function
-
-```
-Sparse Categorical Crossentropy
-```
-
-Metric
-
-```
-Accuracy
-```
-
-Epochs
-
-```
-25
-```
-
-Validation Split
-
-```
-20%
-```
+- Total Parameters: **225,034**
+- Trainable Parameters: **225,034**
 
 ---
 
-## 📈 Training
+## Data Preprocessing
 
-The model is trained using:
+- Reshape images from
+
+```
+(28,28)
+```
+
+to
+
+```
+(28,28,1)
+```
+
+to include the channel dimension.
+
+- Normalize pixel values
 
 ```python
-model.fit(
+X_train = X_train.astype("float32") / 255.0
+X_test = X_test.astype("float32") / 255.0
+```
+
+---
+
+## Training
+
+```python
+model.compile(
+    optimizer="adam",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+history = model.fit(
     X_train,
-    Y_train,
-    epochs=25,
+    y_train,
+    epochs=10,
     validation_split=0.2
 )
 ```
 
 ---
 
-## 📊 Visualizations
+## Prediction
 
-The notebook includes:
+Predict a single image:
 
-- Training Loss
-- Validation Loss
-- Training Accuracy
-- Validation Accuracy
-- Sample Test Images
-- Predicted Digits
+```python
+prediction = model.predict(X_test[0:1])
+print(prediction.argmax(axis=1))
+```
 
 ---
 
-## 📁 Project Structure
+## Results
+
+- Training Accuracy: ~99%
+- Test Accuracy: ~99%
+
+(The exact accuracy may vary slightly after each training run.)
+
+---
+
+## Project Structure
 
 ```
-.
-├── mnist_ann.ipynb
+MNIST-CNN/
+│
+├── MNIST_CNN.ipynb
 ├── README.md
-└── images/            (Optional)
+└── requirements.txt
 ```
 
 ---
 
-## ▶️ How to Run
+## Key Concepts Learned
+
+- Image preprocessing
+- Convolutional Neural Networks
+- Convolution layer
+- Max Pooling
+- Flatten layer
+- Fully Connected (Dense) layers
+- Dropout for regularization
+- Softmax activation
+- Multi-class classification
+- Model evaluation and prediction
+
+---
+
+## Future Improvements
+
+- Hyperparameter tuning
+- Batch Normalization
+- Data Augmentation
+- Early Stopping
+- Model Checkpointing
+- Transfer Learning on larger datasets
+
+---
+
+## How to Run
 
 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/your-repository.git
+git clone https://github.com/your-username/MNIST-CNN.git
 ```
 
 2. Install dependencies
 
 ```bash
-pip install tensorflow matplotlib scikit-learn numpy
+pip install tensorflow numpy matplotlib
 ```
 
-3. Open the notebook
+3. Run the notebook
 
 ```bash
 jupyter notebook
 ```
 
-or run it in **Google Colab**.
+or upload the notebook to **Google Colab**.
 
 ---
 
-## 📚 Learning Outcomes
+## Sample Output
 
-This project covers:
-
-- Artificial Neural Networks (ANN)
-- TensorFlow & Keras
-- Sequential Models
-- Dense Layers
-- ReLU & Softmax Activation
-- Forward Propagation
-- Backpropagation
-- Adam Optimizer
-- Loss Functions
-- Model Evaluation
-- Data Normalization
-- Image Classification
+```
+Predicted Digit : 7
+Actual Digit    : 7
+```
 
 ---
 
-## 🔮 Future Improvements
-
-- Convolutional Neural Network (CNN)
-- Dropout Regularization
-- Batch Normalization
-- Confusion Matrix
-- Precision, Recall & F1 Score
-- Model Deployment using Streamlit or Flask
-
----
-
-## 👨‍💻 Author
-
-**Deepanshu Gupta**
-
-GitHub: https://github.com/Deepanshu8285
